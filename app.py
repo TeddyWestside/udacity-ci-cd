@@ -38,7 +38,10 @@ def predict():
     except FileNotFoundError:
         LOG.error("Model file not found.")
         return "Model not loaded", 500
-    except Exception as e:
+    except joblib.externals.loky.process_executor.TerminatedWorkerError as e:
+        LOG.error("Model loading terminated: %s", e)
+        return "Model not loaded", 500
+    except ValueError as e:
         LOG.error("Error loading model: %s", e)
         return "Model not loaded", 500
 
@@ -50,8 +53,14 @@ def predict():
         scaled_payload = scale(inference_payload)
         prediction = list(clf.predict(scaled_payload))
         return jsonify({'prediction': prediction})
-    except Exception as e:
+    except ValueError as e:
         LOG.error("Error during prediction: %s", e)
+        return "Prediction error", 500
+    except KeyError as e:
+        LOG.error("Key error during prediction: %s", e)
+        return "Prediction error", 500
+    except TypeError as e:
+        LOG.error("Type error during prediction: %s", e)
         return "Prediction error", 500
 
 
