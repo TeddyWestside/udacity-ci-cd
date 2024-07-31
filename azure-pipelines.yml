@@ -17,8 +17,8 @@ pool:
 #  webAppName: 'mywebapp193576'
 #
   # Environment name
-  environmentName: 'flask-service''
-#
+  environmentName: 'flask-service'
+
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
 
