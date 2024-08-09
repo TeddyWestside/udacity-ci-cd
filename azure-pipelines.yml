@@ -30,6 +30,13 @@ stages:
         pool: Azure Pipelines
         steps:
           - script: |
+              sudo apt-get update
+              sudo apt-get install -y python3.10 python3.10-venv python3.10-dev
+              python3.10 -m ensurepip --upgrade
+              python3.10 -m pip install --upgrade pip
+            displayName: 'Step - Install Python 3.10'
+
+          - script: |
               export PATH=$HOME/.local/bin:$PATH
               python3.10 -m pip install -r requirements.txt
             workingDirectory: $(projectRoot)
